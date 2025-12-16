@@ -1,1287 +1,576 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <title>Portfolio | Your Name</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="개인 포트폴리오 웹사이트" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="네트워크/보안 엔지니어 포트폴리오" />
+  <title>Portfolio | Beodeul Kang</title>
 
   <style>
-    :root {
-      --bg: #050816;
-      --bg-alt: #0b1020;
-      --accent: #4f46e5;
-      --accent-soft: rgba(79, 70, 229, 0.15);
-      --accent-strong: #818cf8;
-      --text: #e5e7eb;
-      --muted: #9ca3af;
-      --border: #1f2933;
-      --chip-bg: #111827;
-      --radius-lg: 18px;
-      --radius-xl: 24px;
-      --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.85);
-      --max-width: 1080px;
+    :root{
+      --bg:#ffffff;
+      --card:#ffffff;
+      --text:#0f172a;      /* slate-900 */
+      --muted:#475569;     /* slate-600 */
+      --line:#e2e8f0;      /* slate-200 */
+      --blue:#2563eb;      /* blue-600 */
+      --blue2:#1d4ed8;     /* blue-700 */
+      --soft:#f8fafc;      /* slate-50 */
+      --shadow: 0 10px 30px rgba(2,6,23,.08);
+      --radius: 18px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", Arial, "Apple Color Emoji","Segoe UI Emoji";
+      --max: 1120px;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        sans-serif;
-      background: radial-gradient(circle at top, #111827 0, #020617 55%);
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: var(--sans);
       color: var(--text);
+      background:
+        radial-gradient(900px 400px at 10% -10%, rgba(37,99,235,.12), transparent 60%),
+        radial-gradient(800px 360px at 95% 10%, rgba(37,99,235,.10), transparent 55%),
+        var(--bg);
       line-height: 1.6;
-      scroll-behavior: smooth;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
+    a{ color:var(--blue); text-decoration:none; }
+    a:hover{ text-decoration:underline; }
 
-    img {
-      max-width: 100%;
-      display: block;
+    /* Top nav */
+    .nav{
+      position:sticky; top:0;
+      backdrop-filter: blur(10px);
+      background: rgba(255,255,255,.72);
+      border-bottom: 1px solid rgba(226,232,240,.8);
+      z-index:10;
     }
+    .nav-inner{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 14px 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      font-weight:800;
+      letter-spacing:.2px;
+    }
+    .dot{
+      width:10px; height:10px; border-radius:99px;
+      background: linear-gradient(135deg, var(--blue), #60a5fa);
+      box-shadow: 0 0 0 4px rgba(37,99,235,.12);
+    }
+    .nav-links{
+      display:flex; gap:14px; flex-wrap:wrap;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .nav-links a{ color: var(--muted); padding:8px 10px; border-radius: 10px; }
+    .nav-links a:hover{ background: rgba(37,99,235,.08); color: var(--blue2); text-decoration:none; }
 
     /* Layout */
-    .page {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+    .container{ max-width: var(--max); margin:0 auto; padding: 26px 18px 70px; }
+    .hero{
+      display:grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap: 22px;
+      align-items:stretch;
+      margin-top: 8px;
+    }
+    @media (max-width: 900px){
+      .hero{ grid-template-columns:1fr; }
     }
 
-    .container {
-      width: 100%;
-      max-width: var(--max-width);
-      margin: 0 auto;
-      padding: 0 1.5rem;
+    .card{
+      background: rgba(255,255,255,.85);
+      border: 1px solid rgba(226,232,240,.9);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
     }
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      backdrop-filter: blur(16px);
-      background: linear-gradient(
-        to bottom,
-        rgba(2, 6, 23, 0.9),
-        rgba(2, 6, 23, 0.4),
-        transparent
-      );
-      border-bottom: 1px solid rgba(15, 23, 42, 0.8);
+    .hero-main{ padding: 26px; position:relative; overflow:hidden; }
+    .hero-main:before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: radial-gradient(520px 220px at 20% 0%, rgba(37,99,235,.16), transparent 70%);
+      pointer-events:none;
     }
+    .hero-main > *{ position:relative; }
 
-    .nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.9rem 0;
-    }
-
-    .nav-left {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-    }
-
-    .nav-logo {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 36px;
-      height: 36px;
+    .kicker{
+      display:inline-flex; gap:8px; align-items:center;
+      font-size: 13px;
+      color: var(--blue2);
+      background: rgba(37,99,235,.08);
+      border: 1px solid rgba(37,99,235,.16);
+      padding: 6px 10px;
       border-radius: 999px;
-      background: radial-gradient(circle at 30% 10%, #e5e7eb, #4f46e5 40%, #020617);
-      box-shadow: 0 0 0 1px rgba(129, 140, 248, 0.6),
-        0 12px 30px rgba(15, 23, 42, 0.8);
-      font-size: 0.9rem;
       font-weight: 700;
-      letter-spacing: 0.05em;
     }
-
-    .nav-title {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .nav-title-main {
-      font-size: 0.96rem;
-      font-weight: 600;
-    }
-
-    .nav-title-sub {
-      font-size: 0.75rem;
-      color: var(--muted);
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 1.5rem;
-      font-size: 0.9rem;
-    }
-
-    .nav-links a {
-      position: relative;
-      color: var(--muted);
-      padding-bottom: 0.1rem;
-    }
-
-    .nav-links a::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: -0.2rem;
-      width: 0;
-      height: 2px;
-      border-radius: 999px;
-      background: linear-gradient(to right, var(--accent), var(--accent-strong));
-      transition: width 0.2s ease-out;
-    }
-
-    .nav-links a:hover {
-      color: var(--text);
-    }
-
-    .nav-links a:hover::after {
-      width: 100%;
-    }
-
-    main {
-      flex: 1;
-    }
-
-    section {
-      padding: 4.5rem 0 1.5rem;
-    }
-
-    /* Hero */
-    .hero {
-      display: grid;
-      grid-template-columns: minmax(0, 3fr) minmax(0, 2.5fr);
-      gap: 3rem;
-      align-items: center;
-      padding-top: 3rem;
-      padding-bottom: 3.5rem;
-    }
-
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      font-size: 0.78rem;
-      padding: 0.25rem 0.55rem;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.95);
-      border: 1px solid rgba(129, 140, 248, 0.5);
-      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.8);
-      margin-bottom: 1.1rem;
-    }
-
-    .hero-badge-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: #22c55e;
-      box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.23);
-    }
-
-    .hero-badge-text {
-      text-transform: uppercase;
-      letter-spacing: 0.13em;
-      color: var(--muted);
-    }
-
-    .hero-title {
-      font-size: clamp(2.1rem, 2.4rem + 1vw, 3rem);
+    h1{
+      margin: 14px 0 10px;
+      font-size: clamp(28px, 3.2vw, 44px);
       line-height: 1.15;
-      margin-bottom: 1rem;
-      font-weight: 700;
+      letter-spacing: -0.6px;
     }
-
-    .hero-title span {
-      background: linear-gradient(120deg, #a5b4fc, #22c1c3);
-      -webkit-background-clip: text;
-      color: transparent;
-    }
-
-    .hero-subtitle {
-      font-size: 0.98rem;
+    .sub{
+      margin: 0 0 18px;
       color: var(--muted);
-      max-width: 32rem;
-      margin-bottom: 1.8rem;
+      font-size: 15.5px;
+      max-width: 64ch;
     }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.9rem;
-      margin-bottom: 1.7rem;
+    .cta{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-top: 18px;
     }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 999px;
-      font-size: 0.88rem;
-      font-weight: 500;
-      padding: 0.6rem 1.3rem;
-      border: 1px solid transparent;
-      cursor: pointer;
-      transition: transform 0.15s ease-out, box-shadow 0.15s ease-out,
-        background 0.15s ease-out, border-color 0.15s ease-out, color 0.15s ease-out;
-      background: none;
-      color: inherit;
-    }
-
-    .btn-primary {
-      background: radial-gradient(circle at 0 0, #eef2ff, #4f46e5 50%, #312e81);
-      color: #e5e7eb;
-      box-shadow: 0 18px 40px rgba(30, 64, 175, 0.75);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 24px 55px rgba(15, 23, 42, 0.9);
-    }
-
-    .btn-ghost {
-      border-color: rgba(148, 163, 184, 0.6);
-      background: radial-gradient(circle at 0 0, rgba(148, 163, 184, 0.12), transparent);
-      color: var(--muted);
-    }
-
-    .btn-ghost:hover {
-      border-color: rgba(148, 163, 184, 0.95);
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      padding: 11px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(226,232,240,.95);
+      background: white;
       color: var(--text);
+      font-weight: 800;
+      font-size: 14px;
+      cursor:pointer;
+      transition: transform .08s ease, box-shadow .12s ease, border-color .12s ease;
+      user-select:none;
     }
-
-    .btn-icon {
-      font-size: 1.1rem;
-      margin-left: 0.4rem;
+    .btn:hover{ transform: translateY(-1px); box-shadow: 0 10px 20px rgba(2,6,23,.10); border-color: rgba(37,99,235,.25); text-decoration:none; }
+    .btn.primary{
+      background: linear-gradient(135deg, var(--blue), #3b82f6);
+      border: 1px solid rgba(37,99,235,.35);
+      color: white;
     }
+    .btn .icon{ width:18px; height:18px; display:inline-block; }
+    .btn.secondary{ background: rgba(248,250,252,.9); }
 
-    .hero-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-      font-size: 0.82rem;
+    .hero-side{ padding: 18px; display:flex; flex-direction:column; gap:12px; }
+    .mini{
+      background: rgba(248,250,252,.9);
+      border: 1px solid rgba(226,232,240,.9);
+      border-radius: 16px;
+      padding: 14px;
+    }
+    .mini h3{ margin:0 0 8px; font-size: 14px; letter-spacing:.1px; }
+    .kv{
+      display:grid;
+      grid-template-columns: 90px 1fr;
+      gap:8px 10px;
+      font-size: 13.5px;
+      color: var(--muted);
+    }
+    .kv b{ color: var(--text); font-weight:800; }
+    .pillrow{ display:flex; flex-wrap:wrap; gap:8px; }
+    .pill{
+      font-size: 12.5px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: white;
+      border: 1px solid rgba(226,232,240,.95);
       color: var(--muted);
     }
 
-    .hero-meta-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.2rem;
+    /* Sections */
+    section{ margin-top: 26px; }
+    .section-title{
+      display:flex; align-items:baseline; justify-content:space-between; gap:12px;
+      margin: 0 0 12px;
     }
-
-    .hero-meta-label {
-      text-transform: uppercase;
-      letter-spacing: 0.13em;
-      font-size: 0.72rem;
-      color: #6b7280;
+    .section-title h2{
+      margin:0;
+      font-size: 18px;
+      letter-spacing:-.2px;
     }
-
-    .hero-meta-value {
-      color: #e5e7eb;
-      font-weight: 500;
-    }
-
-    .meta-chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.3rem;
-    }
-
-    .chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.3rem;
-      font-size: 0.75rem;
-      padding: 0.2rem 0.6rem;
-      border-radius: 999px;
-      background: #020617;
-      border: 1px solid #111827;
-    }
-
-    .chip-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-      background: #22c55e;
-    }
-
-    /* Hero - Card Right */
-    .hero-card {
-      border-radius: var(--radius-xl);
-      border: 1px solid rgba(31, 41, 55, 0.9);
-      background:
-        radial-gradient(circle at 0 0, rgba(129, 140, 248, 0.22), transparent 55%),
-        radial-gradient(circle at 100% 0, rgba(14, 165, 233, 0.12), transparent 55%),
-        linear-gradient(145deg, #020617, #020617 30%, #020617 75%, #020617);
-      padding: 1.4rem 1.3rem;
-      box-shadow: var(--shadow-soft);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-card-inner {
-      border-radius: var(--radius-lg);
-      border: 1px solid rgba(55, 65, 81, 0.9);
-      padding: 1.2rem 1.2rem 1.35rem;
-      background: radial-gradient(circle at top, #020617, #020617 75%);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1rem;
-    }
-
-    .hero-card-tabs {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.3rem;
-      padding: 0.2rem;
-      border-radius: 999px;
-      background: #020617;
-      border: 1px solid rgba(55, 65, 81, 0.8);
-    }
-
-    .hero-card-tab {
-      font-size: 0.72rem;
-      padding: 0.2rem 0.7rem;
-      border-radius: 999px;
-      color: #6b7280;
-    }
-
-    .hero-card-tab.active {
-      background: linear-gradient(to right, #4f46e5, #22c1c3);
-      color: #e5e7eb;
-      box-shadow: 0 0 0 1px rgba(191, 219, 254, 0.3);
-    }
-
-    .hero-card-dots {
-      display: flex;
-      gap: 0.3rem;
-    }
-
-    .hero-card-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 999px;
-      background: #111827;
-    }
-
-    .cmd-window {
-      border-radius: var(--radius-lg);
-      border: 1px solid rgba(31, 41, 55, 0.95);
-      background: radial-gradient(circle at top, #020617, #020617 60%, #020617);
-      padding: 0.8rem 0.85rem 0.9rem;
-      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
-        Consolas, "Liberation Mono", "Courier New", monospace;
-      font-size: 0.78rem;
-      color: #e5e7eb;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .cmd-title {
-      font-size: 0.73rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: #64748b;
-      margin-bottom: 0.55rem;
-    }
-
-    .cmd-line {
-      display: flex;
-      margin-bottom: 0.12rem;
-    }
-
-    .cmd-prefix {
-      color: #22c55e;
-      margin-right: 0.45rem;
-    }
-
-    .cmd-command {
-      color: #e5e7eb;
-    }
-
-    .cmd-comment {
-      color: #6b7280;
-    }
-
-    .cmd-highlight {
-      color: #38bdf8;
-    }
-
-    .cmd-soft {
-      color: #9ca3af;
-    }
-
-    .cmd-cursor {
-      display: inline-block;
-      width: 7px;
-      height: 1rem;
-      margin-left: 2px;
-      background: #e5e7eb;
-      border-radius: 2px;
-      opacity: 0.8;
-      animation: blink 1s steps(2, start) infinite;
-    }
-
-    @keyframes blink {
-      to {
-        opacity: 0;
-      }
-    }
-
-    .hero-card-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 0.9rem;
-      font-size: 0.76rem;
-      color: #9ca3af;
-    }
-
-    .hero-badges {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.35rem;
-    }
-
-    .hero-badge-pill {
-      border-radius: 999px;
-      padding: 0.12rem 0.5rem;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(55, 65, 81, 0.9);
-      display: inline-flex;
-      align-items: center;
-      gap: 0.25rem;
-    }
-
-    .hero-badge-pill span {
-      font-size: 0.72rem;
-    }
-
-    .hero-gauge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-    }
-
-    .hero-gauge-bar {
-      width: 60px;
-      height: 6px;
-      border-radius: 999px;
-      background: #020617;
-      overflow: hidden;
-      border: 1px solid #1f2933;
-    }
-
-    .hero-gauge-fill {
-      width: 78%;
-      height: 100%;
-      border-radius: 999px;
-      background: linear-gradient(to right, #22c55e, #a3e635);
-      box-shadow: 0 0 10px rgba(34, 197, 94, 0.8);
-    }
-
-    /* Section titles */
-    .section-header {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      margin-bottom: 1.7rem;
-      gap: 1rem;
-    }
-
-    .section-title {
-      font-size: 1.2rem;
-      font-weight: 600;
-    }
-
-    .section-title span {
-      color: var(--accent-strong);
-    }
-
-    .section-subtitle {
-      font-size: 0.82rem;
+    .section-title p{
+      margin:0;
       color: var(--muted);
-      max-width: 360px;
+      font-size: 13.5px;
     }
 
-    /* About */
-    .about-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 3fr) minmax(0, 2.3fr);
-      gap: 2.3rem;
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+    }
+    .col-4{ grid-column: span 4; }
+    .col-6{ grid-column: span 6; }
+    .col-12{ grid-column: span 12; }
+    @media (max-width: 980px){
+      .col-4,.col-6{ grid-column: span 12; }
     }
 
-    .card {
-      border-radius: var(--radius-lg);
-      border: 1px solid rgba(30, 41, 59, 0.9);
-      background: radial-gradient(circle at top, #020617, #020617 70%);
-      padding: 1.2rem 1.3rem;
-      box-shadow: 0 16px 35px rgba(15, 23, 42, 0.95);
+    .item{
+      padding: 16px;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.85);
+      border: 1px solid rgba(226,232,240,.9);
+      box-shadow: 0 10px 26px rgba(2,6,23,.06);
+      transition: transform .08s ease, border-color .12s ease;
     }
-
-    .about-text {
-      font-size: 0.92rem;
-      color: #d1d5db;
-      margin-bottom: 1.1rem;
+    .item:hover{ transform: translateY(-1px); border-color: rgba(37,99,235,.22); }
+    .item .top{
+      display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
+      margin-bottom: 8px;
     }
-
-    .about-text p + p {
-      margin-top: 0.7rem;
+    .item h3{
+      margin:0;
+      font-size: 15.5px;
+      letter-spacing:-.2px;
     }
-
-    .key-value-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 0.7rem 1.3rem;
-      font-size: 0.86rem;
-      margin-top: 0.8rem;
-    }
-
-    .key-label {
-      color: #9ca3af;
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.13em;
-      margin-bottom: 0.1rem;
-    }
-
-    .key-value {
-      color: #e5e7eb;
-    }
-
-    .skills-groups {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 0.8rem;
-    }
-
-    .skill-group-title {
-      font-size: 0.82rem;
-      margin-bottom: 0.4rem;
-      color: #e5e7eb;
-      font-weight: 500;
-    }
-
-    .skill-chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-    }
-
-    .skill-chip {
-      font-size: 0.78rem;
-      padding: 0.2rem 0.55rem;
+    .tag{
+      font-size: 12px;
+      color: var(--blue2);
+      background: rgba(37,99,235,.08);
+      border: 1px solid rgba(37,99,235,.18);
+      padding: 5px 9px;
       border-radius: 999px;
-      background: var(--chip-bg);
-      border: 1px solid #111827;
-      color: #d1d5db;
-      white-space: nowrap;
+      white-space:nowrap;
+      font-weight:800;
     }
-
-    /* Projects */
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1.3rem;
+    .meta{
+      display:flex; gap:10px; flex-wrap:wrap;
+      color: var(--muted);
+      font-size: 13px;
+      margin: 6px 0 10px;
     }
-
-    .project-card {
-      border-radius: var(--radius-lg);
-      border: 1px solid rgba(31, 41, 55, 0.95);
-      background: radial-gradient(circle at top, #020617, #020617 65%);
-      padding: 1rem 1rem 1.1rem;
-      box-shadow: 0 16px 35px rgba(15, 23, 42, 0.9);
-      display: flex;
-      flex-direction: column;
-      gap: 0.65rem;
-    }
-
-    .project-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 0.5rem;
-    }
-
-    .project-title {
-      font-size: 0.98rem;
-      font-weight: 500;
-    }
-
-    .project-tag {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      padding: 0.15rem 0.55rem;
+    .meta span{
+      display:inline-flex; align-items:center; gap:6px;
+      background: rgba(248,250,252,.9);
+      border: 1px solid rgba(226,232,240,.9);
+      padding: 6px 10px;
       border-radius: 999px;
-      border: 1px solid rgba(55, 65, 81, 0.95);
-      color: #9ca3af;
+    }
+    .desc{ margin: 0 0 10px; color: var(--muted); font-size: 13.8px; }
+    ul.bullets{
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 13.6px;
+    }
+    ul.bullets li{ margin: 4px 0; }
+
+    .split{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    @media (max-width: 980px){
+      .split{ grid-template-columns:1fr; }
     }
 
-    .project-desc {
-      font-size: 0.84rem;
-      color: #d1d5db;
+    .callout{
+      padding: 16px;
+      border-radius: var(--radius);
+      border: 1px dashed rgba(37,99,235,.35);
+      background: rgba(37,99,235,.06);
+      color: var(--muted);
+      font-size: 13.8px;
+    }
+    .callout b{ color: var(--text); }
+
+    footer{
+      margin-top: 34px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(226,232,240,.9);
+      color: var(--muted);
+      font-size: 13px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
     }
 
-    .project-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.78rem;
-      color: #9ca3af;
-      margin-top: 0.2rem;
-    }
-
-    .project-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-    }
-
-    .project-link {
-      font-size: 0.78rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.25rem;
-      padding: 0.2rem 0.55rem;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(51, 65, 85, 0.9);
-    }
-
-    .project-link span {
-      font-size: 0.9rem;
-    }
-
-    .project-tech {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.35rem;
-      font-size: 0.75rem;
-    }
-
-    .project-tech span {
-      padding: 0.12rem 0.4rem;
-      border-radius: 999px;
-      background: #020617;
-      border: 1px solid #111827;
-      color: #e5e7eb;
-    }
-
-    /* Contact */
-    .contact-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
-      gap: 2rem;
-    }
-
-    .contact-text {
-      font-size: 0.9rem;
-      color: #d1d5db;
-      margin-bottom: 1rem;
-    }
-
-    .contact-list {
-      list-style: none;
-      display: grid;
-      gap: 0.7rem;
-      font-size: 0.88rem;
-    }
-
-    .contact-item-label {
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.13em;
-      color: #9ca3af;
-      margin-bottom: 0.1rem;
-    }
-
-    .contact-item-value a {
-      color: var(--accent-strong);
-    }
-
-    .contact-item-value a:hover {
-      text-decoration: underline;
-    }
-
-    .contact-note {
-      font-size: 0.8rem;
-      color: #9ca3af;
-      margin-top: 0.7rem;
-    }
-
-    .contact-card {
-      border-radius: var(--radius-lg);
-      border: 1px solid rgba(31, 41, 55, 0.9);
-      background: radial-gradient(circle at top, #020617, #020617 60%);
-      padding: 1.1rem 1.1rem 1.2rem;
-      box-shadow: 0 16px 35px rgba(15, 23, 42, 0.95);
-      font-size: 0.82rem;
-      color: #d1d5db;
-    }
-
-    .contact-pill-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.35rem;
-      margin-top: 0.7rem;
-    }
-
-    .contact-pill {
-      padding: 0.2rem 0.5rem;
-      border-radius: 999px;
-      border: 1px solid rgba(55, 65, 81, 0.95);
-      background: rgba(15, 23, 42, 0.95);
-      font-size: 0.78rem;
-      color: #9ca3af;
-    }
-
-    footer {
-      padding: 1.6rem 0 2.2rem;
-      font-size: 0.78rem;
-      color: #6b7280;
-    }
-
-    .footer-inner {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
-    .footer-links {
-      display: flex;
-      gap: 1rem;
-    }
-
-    .footer-links a {
-      color: #9ca3af;
-    }
-
-    .footer-links a:hover {
-      color: var(--accent-strong);
-    }
-
-    /* Responsive */
-    @media (max-width: 900px) {
-      .hero {
-        grid-template-columns: minmax(0, 1fr);
-      }
-
-      .hero-card {
-        order: -1;
-      }
-
-      section {
-        padding-top: 3.2rem;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .nav-links {
-        display: none;
-      }
-
-      .hero {
-        padding-top: 2.4rem;
-      }
-
-      .about-grid,
-      .contact-grid {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-
-    @media (max-width: 480px) {
-      .container {
-        padding: 0 1.1rem;
-      }
-
-      .hero-card {
-        padding: 1.1rem;
-      }
-
-      .hero-card-inner {
-        padding: 0.9rem;
-      }
-
-      .projects-grid {
-        grid-template-columns: minmax(0, 1fr);
-      }
+    /* subtle highlight for anchors */
+    .anchor{
+      scroll-margin-top: 86px;
     }
   </style>
 </head>
+
 <body>
-<div class="page">
-  <!-- NAVBAR -->
-  <header>
-    <div class="container">
-      <nav class="nav">
-        <div class="nav-left">
-          <!-- 이니셜 바꿔도 됨 -->
-          <div class="nav-logo">YK</div>
-          <div class="nav-title">
-            <span class="nav-title-main">Your Name</span>
-            <span class="nav-title-sub">Network &amp; Security Engineer</span>
-          </div>
-        </div>
-        <div class="nav-links">
-          <a href="#about">About</a>
-          <a href="#projects">Projects</a>
-          <a href="#contact">Contact</a>
-        </div>
-      </nav>
+  <div class="nav">
+    <div class="nav-inner">
+      <div class="brand">
+        <span class="dot" aria-hidden="true"></span>
+        <span>Beodeul Kang</span>
+      </div>
+      <div class="nav-links">
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#experience">Experience</a>
+        <a href="#contact">Contact</a>
+      </div>
     </div>
-  </header>
+  </div>
 
-  <main>
+  <main class="container">
     <!-- HERO -->
-    <section id="top">
-      <div class="container hero">
-        <div class="hero-left">
-          <div class="hero-badge">
-            <span class="hero-badge-dot"></span>
-            <span class="hero-badge-text">Open to Work · Network / Security</span>
-          </div>
-          <h1 class="hero-title">
-            Hi, I'm <span>Your Name</span><br />
-            Network &amp; Security Engineer.
-          </h1>
-          <p class="hero-subtitle">
-            인프라 설계부터 보안 점검까지, 서비스가 안전하게 돌아가도록 네트워크를 설계하고
-            문제를 끝까지 추적하는 엔지니어입니다. OSPF, VRRP, 방화벽, 모의해킹 실습을 기반으로
-            실제 현장에 바로 적용 가능한 구성을 만드는 데 집중하고 있습니다.
-          </p>
+    <div class="hero">
+      <div class="card hero-main">
+        <div class="kicker">Network · Security · Systems</div>
+        <h1>네트워크/보안 엔지니어 포트폴리오</h1>
+        <p class="sub">
+          “설계 → 구성 → 트러블슈팅 → 문서화”까지 끝내는 타입입니다.
+          라우팅/터널링, 망분리(VLAN), 방화벽 정책/ACL, 서버 운영 기반으로 안정성과 보안을 같이 봅니다.
+        </p>
 
-          <div class="hero-actions">
-            <a href="#projects" class="btn btn-primary">
-              View Projects
-              <span class="btn-icon">↗</span>
-            </a>
-            <!-- 이력서 링크 있으면 href 수정 -->
-            <a
-              href="#contact"
-              class="btn btn-ghost"
-            >
-              Get in Touch
-            </a>
-          </div>
-
-          <div class="hero-meta">
-            <div class="hero-meta-group">
-              <span class="hero-meta-label">Focus</span>
-              <span class="hero-meta-value">Network · Security · Linux</span>
-              <div class="meta-chips">
-                <div class="chip">
-                  <span class="chip-dot"></span>
-                  <span>Routing &amp; Switching</span>
-                </div>
-                <div class="chip">
-                  <span class="chip-dot"></span>
-                  <span>Firewall / VPN</span>
-                </div>
-              </div>
-            </div>
-            <div class="hero-meta-group">
-              <span class="hero-meta-label">Currently</span>
-              <span class="hero-meta-value">Preparing for Network Engineer role</span>
-              <div class="meta-chips">
-                <div class="chip">
-                  <span class="chip-dot"></span>
-                  <span>GNS3 · Packet Tracer</span>
-                </div>
-                <div class="chip">
-                  <span class="chip-dot"></span>
-                  <span>Kali · Rocky Linux</span>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div class="cta">
+          <a class="btn primary" href="#projects">
+            <span class="icon" aria-hidden="true">🚀</span>
+            프로젝트 보기
+          </a>
+          <a class="btn secondary" href="#contact">
+            <span class="icon" aria-hidden="true">✉️</span>
+            연락하기
+          </a>
+          <a class="btn" href="https://github.com/" target="_blank" rel="noreferrer">
+            <span class="icon" aria-hidden="true">💻</span>
+            GitHub
+          </a>
+          <a class="btn" href="#" onclick="window.print(); return false;">
+            <span class="icon" aria-hidden="true">🖨️</span>
+            PDF로 출력
+          </a>
         </div>
 
-        <!-- HERO RIGHT CARD -->
-        <div class="hero-card">
-          <div class="hero-card-inner">
-            <div class="hero-card-header">
-              <div class="hero-card-tabs">
-                <div class="hero-card-tab active">session: portfolio</div>
-                <div class="hero-card-tab">logs</div>
-              </div>
-              <div class="hero-card-dots">
-                <span class="hero-card-dot"></span>
-                <span class="hero-card-dot"></span>
-                <span class="hero-card-dot"></span>
-              </div>
-            </div>
-
-            <div class="cmd-window">
-              <div class="cmd-title">terminal · career.log</div>
-
-              <div class="cmd-line">
-                <span class="cmd-prefix">root@lab</span>
-                <span class="cmd-command"># whoami</span>
-              </div>
-              <div class="cmd-line">
-                <span class="cmd-prefix">&gt;</span>
-                <span class="cmd-soft">network / security engineer (entry)</span>
-              </div>
-
-              <div class="cmd-line" style="margin-top: 0.35rem;">
-                <span class="cmd-prefix">root@lab</span>
-                <span class="cmd-command">
-                  # show skills <span class="cmd-comment"># routing, security, linux</span>
-                </span>
-              </div>
-              <div class="cmd-line">
-                <span class="cmd-prefix">&gt;</span>
-                <span class="cmd-highlight">
-                  OSPF, VRRP/HSRP, VLAN, NAT, VPN (IPsec)
-                </span>
-              </div>
-              <div class="cmd-line">
-                <span class="cmd-prefix">&gt;</span>
-                <span class="cmd-highlight">
-                  Firewall policy, ACL, IDS/IPS, basic pentest
-                </span>
-              </div>
-              <div class="cmd-line">
-                <span class="cmd-prefix">&gt;</span>
-                <span class="cmd-soft">
-                  Rocky Linux, Apache/Nginx, DNS, shell
-                </span>
-              </div>
-
-              <div class="cmd-line" style="margin-top: 0.5rem;">
-                <span class="cmd-prefix">root@lab</span>
-                <span class="cmd-command">
-                  # apply job --role network_engineer --location "KR"
-                </span>
-              </div>
-              <div class="cmd-line">
-                <span class="cmd-prefix">&gt;</span>
-                <span class="cmd-soft">
-                  status: <span class="cmd-highlight">READY</span>
-                  <span class="cmd-cursor"></span>
-                </span>
-              </div>
-            </div>
-
-            <div class="hero-card-footer">
-              <div class="hero-badges">
-                <div class="hero-badge-pill">
-                  <span>✓ Infrastructure Design</span>
-                </div>
-                <div class="hero-badge-pill">
-                  <span>✓ Troubleshooting</span>
-                </div>
-              </div>
-              <div class="hero-gauge">
-                <span>learning</span>
-                <div class="hero-gauge-bar">
-                  <div class="hero-gauge-fill"></div>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div style="margin-top:18px" class="callout">
+          <b>Tip:</b> 아래 섹션의 링크/내용만 채우면 완성입니다. (프로젝트 2~3개만 제대로 적어도 충분히 “전문가 느낌” 납니다.)
         </div>
       </div>
-    </section>
 
-    <!-- ABOUT -->
-    <section id="about">
-      <div class="container">
-        <div class="section-header">
-          <h2 class="section-title">About <span>Me</span></h2>
-          <p class="section-subtitle">
-            네트워크 인프라를 직접 손으로 구성하고, 장애를 재현해 보면서 원인을 찾는 과정을 좋아합니다.
-            “왜 안 되는지”를 끝까지 추적하는 집요함이 제 강점입니다.
-          </p>
-        </div>
-
-        <div class="about-grid">
-          <div class="card">
-            <div class="about-text">
-              <p>
-                컴퓨터·전자 계열 전공을 기반으로 라우터·스위치·방화벽 장비를 활용한
-                네트워크 설계와 보안 실습을 진행해 왔습니다. GNS3와 Packet Tracer로
-                사내 인프라를 모델링하고, 이중화 구성과 VPN, DMZ 구간 설계를 반복적으로
-                연습했습니다.
-              </p>
-              <p>
-                단순히 ‘연결 된다’에서 끝나는 것이 아니라, 장애 상황에서 어떤 로그가
-                찍히고, 패킷이 어디에서 막히는지까지 보는 것을 중요하게 생각합니다.
-                그래서 Wireshark, Syslog, Linux 로그 분석 등도 함께 연습하고 있습니다.
-              </p>
-            </div>
-
-            <div class="key-value-list">
-              <div>
-                <div class="key-label">Name</div>
-                <div class="key-value">Your Name</div>
-              </div>
-              <div>
-                <div class="key-label">Location</div>
-                <div class="key-value">Seoul, Republic of Korea</div>
-              </div>
-              <div>
-                <div class="key-label">Interest</div>
-                <div class="key-value">Network Infra, Security, Automation</div>
-              </div>
-              <div>
-                <div class="key-label">Looking for</div>
-                <div class="key-value">Network Engineer / Infra Engineer</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="card">
-            <h3 style="font-size:0.96rem; margin-bottom:0.7rem;">Skills Overview</h3>
-            <div class="skills-groups">
-              <div>
-                <div class="skill-group-title">Networking</div>
-                <div class="skill-chips">
-                  <span class="skill-chip">TCP/IP</span>
-                  <span class="skill-chip">VLAN / Trunk</span>
-                  <span class="skill-chip">OSPF</span>
-                  <span class="skill-chip">ECMP</span>
-                  <span class="skill-chip">VRRP / HSRP</span>
-                  <span class="skill-chip">NAT / PAT</span>
-                </div>
-              </div>
-              <div>
-                <div class="skill-group-title">Security</div>
-                <div class="skill-chips">
-                  <span class="skill-chip">Firewall Policy</span>
-                  <span class="skill-chip">ACL / Anti-Spoofing</span>
-                  <span class="skill-chip">VPN (IPsec)</span>
-                  <span class="skill-chip">Linux Hardening</span>
-                  <span class="skill-chip">Basic Pentest</span>
-                </div>
-              </div>
-              <div>
-                <div class="skill-group-title">Systems &amp; Tools</div>
-                <div class="skill-chips">
-                  <span class="skill-chip">Rocky Linux</span>
-                  <span class="skill-chip">Kali Linux</span>
-                  <span class="skill-chip">Apache / Nginx</span>
-                  <span class="skill-chip">DNS (BIND)</span>
-                  <span class="skill-chip">GNS3</span>
-                  <span class="skill-chip">Cisco IOS</span>
-                </div>
-              </div>
-              <div>
-                <div class="skill-group-title">Dev &amp; Automation</div>
-                <div class="skill-chips">
-                  <span class="skill-chip">Python</span>
-                  <span class="skill-chip">Shell Script</span>
-                  <span class="skill-chip">Git / GitHub</span>
-                  <span class="skill-chip">Basic REST API</span>
-                </div>
-              </div>
-            </div>
+      <aside class="card hero-side">
+        <div class="mini">
+          <h3>Quick Info</h3>
+          <div class="kv">
+            <span>Role</span><b>Network / Security</b>
+            <span>Focus</span><b>Troubleshooting & Hardening</b>
+            <span>Location</span><b>KR (Remote OK)</b>
+            <span>Stack</span><b>Cisco · Linux · Firewall</b>
           </div>
         </div>
 
-      </div>
-    </section>
+        <div class="mini">
+          <h3>Core Keywords</h3>
+          <div class="pillrow">
+            <span class="pill">VLAN / Trunk</span>
+            <span class="pill">OSPF</span>
+            <span class="pill">NAT/PAT</span>
+            <span class="pill">GRE over IPsec</span>
+            <span class="pill">ACL / Anti-Spoof</span>
+            <span class="pill">Logging</span>
+            <span class="pill">Rocky Linux</span>
+          </div>
+        </div>
+
+        <div class="mini">
+          <h3>Links</h3>
+          <div class="pillrow">
+            <a class="pill" href="https://github.com/" target="_blank" rel="noreferrer">GitHub</a>
+            <a class="pill" href="https://www.linkedin.com/" target="_blank" rel="noreferrer">LinkedIn</a>
+            <a class="pill" href="#" onclick="alert('여기에 이력서 PDF 링크 넣으면 됩니다.'); return false;">Resume</a>
+          </div>
+        </div>
+      </aside>
+    </div>
 
     <!-- PROJECTS -->
-    <section id="projects">
-      <div class="container">
-        <div class="section-header">
-          <h2 class="section-title">Selected <span>Projects</span></h2>
-          <p class="section-subtitle">
-            실제 장비 또는 GNS3/Packet Tracer로 구현했던 인프라·보안 구성을 중심으로 정리했습니다.
-            GitHub 저장소와 설계 문서를 함께 제공할 수 있도록 구성했습니다.
+    <section id="projects" class="anchor">
+      <div class="section-title">
+        <h2>Projects</h2>
+        <p>대표 2~3개만 “깊게” 적는 게 베스트</p>
+      </div>
+
+      <div class="grid">
+        <article class="item col-6">
+          <div class="top">
+            <h3>HQ–Branch 네트워크 구축 (GRE over IPsec + OSPF)</h3>
+            <span class="tag">Network</span>
+          </div>
+          <div class="meta">
+            <span>📌 Packet Tracer / GNS3</span>
+            <span>🧩 OSPF · NAT · ACL</span>
+            <span>🔒 IPsec (ESP)</span>
+          </div>
+          <p class="desc">
+            본사–지사 간 인터넷 구간에 가상 링크를 구성하고, 동적 라우팅을 터널 위에서 안정적으로 운용.
+            장애 원인을 계층별로 분해해 빠르게 식별하는 방식으로 트러블슈팅 수행.
           </p>
+          <ul class="bullets">
+            <li>GRE 터널 구성 후 OSPF Neighbor 형성/라우팅 정상화 검증</li>
+            <li>NAT/PAT 정책으로 인한 라우팅 패킷 간섭 이슈 분석 및 수정</li>
+            <li>RFC1918 기반 anti-spoof ACL 및 기본 DoS 방어 룰 적용</li>
+          </ul>
+        </article>
+
+        <article class="item col-6">
+          <div class="top">
+            <h3>보안 정책/지침서 작성 및 기술 통제 매핑</h3>
+            <span class="tag">Security</span>
+          </div>
+          <div class="meta">
+            <span>📌 ISMS-P 기반</span>
+            <span>📎 운영·점검 항목화</span>
+            <span>🧾 리스크 등급화</span>
+          </div>
+          <p class="desc">
+            계정/접근통제, 네트워크, 로그/모니터링, 취약점 진단 등 운영 관점의 문서 체계를 구축하고,
+            실제 장비 설정(ACL/로그/비활성화 정책 등)과 연결되도록 정리.
+          </p>
+          <ul class="bullets">
+            <li>통제 항목을 실행 가능한 체크리스트로 변환 (예: 미사용 인터페이스 shutdown)</li>
+            <li>정책-구성-증적(캡처/로그) 흐름으로 발표/감사 대응 가능 형태로 정리</li>
+            <li>우선순위(상/중/하) 기준으로 개선 로드맵 제안</li>
+          </ul>
+        </article>
+
+        <article class="item col-12">
+          <div class="top">
+            <h3>Rocky Linux 서버 운영 베이스라인 구축</h3>
+            <span class="tag">Systems</span>
+          </div>
+          <div class="split">
+            <div>
+              <div class="meta" style="margin-top:0">
+                <span>🐧 Rocky Linux</span>
+                <span>🧱 방화벽/서비스 관리</span>
+                <span>📦 패키지/계정 정책</span>
+              </div>
+              <p class="desc">
+                실습 환경에서 서비스(웹/DNS/FTP 등)를 구성하고, 보안 관점에서 최소 노출·운영성 기준을 맞춘 표준 템플릿을 정리.
+              </p>
+              <ul class="bullets">
+                <li>서비스 단위 systemd 관리 및 포트 정책 정리</li>
+                <li>계정/권한/디렉터리 정책(최소권한) 적용</li>
+                <li>로그 수집/점검 포인트 정의</li>
+              </ul>
+            </div>
+            <div class="callout">
+              <b>여기 채우면 퀄리티 확 올라감</b><br/>
+              - “문제상황 → 가설 → 검증명령어 → 결론” 4줄 요약<br/>
+              - 캡처 2장(성공/실패 비교) 링크<br/>
+              - 구성도 한 장(이미지/PNG)
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" class="anchor">
+      <div class="section-title">
+        <h2>Skills</h2>
+        <p>면접에서 바로 “어디까지 했냐”로 이어지는 구성</p>
+      </div>
+
+      <div class="grid">
+        <div class="item col-4">
+          <div class="top"><h3>Networking</h3><span class="tag">Core</span></div>
+          <ul class="bullets">
+            <li>VLAN/Trunk, Inter-VLAN Routing</li>
+            <li>OSPF, Static Routing, Route Troubleshooting</li>
+            <li>NAT/PAT, 기본 ACL 설계</li>
+          </ul>
         </div>
+        <div class="item col-4">
+          <div class="top"><h3>Security</h3><span class="tag">Hardening</span></div>
+          <ul class="bullets">
+            <li>IPsec(ESP), GRE over IPsec 구성</li>
+            <li>Anti-Spoofing, 기본 DoS 방어 아이디어</li>
+            <li>정책/점검표 기반 운영(감사 대응)</li>
+          </ul>
+        </div>
+        <div class="item col-4">
+          <div class="top"><h3>Systems</h3><span class="tag">Ops</span></div>
+          <ul class="bullets">
+            <li>Linux 서비스 운영/점검(systemd)</li>
+            <li>firewalld, 기본 로그/모니터링</li>
+            <li>문서화: 구성도, 체크리스트, 증적 정리</li>
+          </ul>
+        </div>
+      </div>
+    </section>
 
-        <div class="projects-grid">
-          <!-- Project 1 -->
-          <article class="project-card">
-            <div class="project-header">
-              <h3 class="project-title">Corporate HQ &amp; Branch VPN Lab</h3>
-              <span class="project-tag">Network Design</span>
-            </div>
-            <p class="project-desc">
-              본사(HQ)와 지사(BR) 간 IPsec VPN을 구성하고, 내부에는 OSPF와 VRRP를 이용해 이중화된
-              게이트웨이를 설계한 랩 환경입니다. NAT, DMZ, 서버 구간까지 포함해 실제 회사 인프라에
-              가까운 토폴로지를 GNS3로 구현했습니다.
-            </p>
-            <div class="project-meta">
-              <div class="project-tech">
-                <span>OSPF</span>
-                <span>VRRP</span>
-                <span>IPsec VPN</span>
-                <span>NAT</span>
-              </div>
-              <div class="project-links">
-                <!-- GitHub 링크 수정 -->
-                <a href="https://github.com/your-id/your-repo" target="_blank" class="project-link">
-                  <span>⧉</span> GitHub
-                </a>
-              </div>
-            </div>
-          </article>
+    <!-- EXPERIENCE -->
+    <section id="experience" class="anchor">
+      <div class="section-title">
+        <h2>Experience</h2>
+        <p>여기는 짧아도 됨. “무엇을 했는지”만</p>
+      </div>
 
-          <!-- Project 2 -->
-          <article class="project-card">
-            <div class="project-header">
-              <h3 class="project-title">Web Service Hardening Lab</h3>
-              <span class="project-tag">Security</span>
-            </div>
-            <p class="project-desc">
-              Rocky Linux 환경에서 Apache/PHP 서버를 구성하고, phpinfo 노출, 디렉토리 브루트포싱,
-              취약한 PHP 설정 등을 점검·개선한 실습입니다. 방화벽(iptables/firewalld)와
-              보안 장비 앞단 ACL, WAF 개념도 함께 적용했습니다.
-            </p>
-            <div class="project-meta">
-              <div class="project-tech">
-                <span>Rocky Linux</span>
-                <span>Apache</span>
-                <span>PHP</span>
-                <span>firewalld</span>
-              </div>
-              <div class="project-links">
-                <a href="https://github.com/your-id/your-repo" target="_blank" class="project-link">
-                  <span>⧉</span> GitHub
-                </a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Project 3 -->
-          <article class="project-card">
-            <div class="project-header">
-              <h3 class="project-title">Packet Capture &amp; Troubleshooting</h3>
-              <span class="project-tag">Analysis</span>
-            </div>
-            <p class="project-desc">
-              특정 구간에서만 발생하는 장애 상황을 가정하고, Wireshark와 장비 로그를 통해
-              원인을 추적한 프로젝트입니다. ARP 문제, NAT 설정 오류, 라우팅 미스매치 등 다양한
-              케이스를 재현하고 정리했습니다.
-            </p>
-            <div class="project-meta">
-              <div class="project-tech">
-                <span>Wireshark</span>
-                <span>Syslog</span>
-                <span>Routing Debug</span>
-              </div>
-              <div class="project-links">
-                <a href="https://github.com/your-id/your-repo" target="_blank" class="project-link">
-                  <span>⧉</span> GitHub
-                </a>
-              </div>
-            </div>
-          </article>
+      <div class="grid">
+        <div class="item col-12">
+          <div class="top">
+            <h3>KDT 웹보안 및 서버개발 과정</h3>
+            <span class="tag">Training</span>
+          </div>
+          <div class="meta">
+            <span>🗓️ YYYY.MM – YYYY.MM</span>
+            <span>📍 Korea</span>
+          </div>
+          <ul class="bullets">
+            <li>네트워크 실습(서브넷팅/라우팅/ACL) + GNS3 기반 구축/트러블슈팅</li>
+            <li>서비스 운영 관점에서 보안 설정/문서화까지 패키징</li>
+          </ul>
         </div>
       </div>
     </section>
 
     <!-- CONTACT -->
-    <section id="contact">
-      <div class="container">
-        <div class="section-header">
-          <h2 class="section-title"><span>Contact</span> &amp; Links</h2>
-          <p class="section-subtitle">
-            네트워크 / 인프라 / 보안 관련 포지션, 또는 실습/스터디 제안도 환영합니다.
-            아래 연락 수단으로 편하게 연락 주세요.
+    <section id="contact" class="anchor">
+      <div class="section-title">
+        <h2>Contact</h2>
+        <p>링크만 정확히 걸어도 “완성도”가 올라감</p>
+      </div>
+
+      <div class="grid">
+        <div class="item col-6">
+          <div class="top"><h3>Get in touch</h3><span class="tag">Open</span></div>
+          <p class="desc">
+            아래 항목을 본인 정보로 교체하세요.
           </p>
+          <ul class="bullets" style="list-style:none; padding-left:0">
+            <li><b>Email:</b> <a href="mailto:your@email.com">your@email.com</a></li>
+            <li><b>GitHub:</b> <a href="https://github.com/yourid" target="_blank" rel="noreferrer">github.com/yourid</a></li>
+            <li><b>LinkedIn:</b> <a href="https://www.linkedin.com/in/yourid" target="_blank" rel="noreferrer">linkedin.com/in/yourid</a></li>
+          </ul>
+          <div class="cta" style="margin-top:12px">
+            <a class="btn primary" href="mailto:your@email.com">메일 보내기</a>
+            <a class="btn" href="https://github.com/yourid" target="_blank" rel="noreferrer">깃허브 보기</a>
+          </div>
         </div>
 
-        <div class="contact-grid">
-          <div>
-            <div class="card">
-              <p class="contact-text">
-                인프라 구성을 직접 눈으로 보고 손으로 만지면서 배우는 것을 좋아합니다.
-                “이 구성에서 장애가 나면 어디부터 확인할까?”를 먼저 떠올리는 엔지니어가 되고 싶습니다.
-              </p>
-              <ul class="contact-list">
-                <li>
-                  <div class="contact-item-label">Email</div>
-                  <div class="contact-item-value">
-                    <!-- 이메일 변경 -->
-                    <a href="mailto:your.email@example.com">your.email@example.com</a>
-                  </div>
-                </li>
-                <li>
-                  <div class="contact-item-label">GitHub</div>
-                  <div class="contact-item-value">
-                    <!-- GitHub 변경 -->
-                    <a href="https://github.com/your-id" target="_blank">
-                      github.com/your-id
-                    </a>
-                  </div>
-                </li>
-                <li>
-                  <div class="contact-item-label">LinkedIn (선택)</div>
-                  <div class="contact-item-value">
-                    <!-- LinkedIn 없으면 이 li 통째로 삭제 -->
-                    <a href="https://www.linkedin.com/in/your-id" target="_blank">
-                      linkedin.com/in/your-id
-                    </a>
-                  </div>
-                </li>
-              </ul>
-              <p class="contact-note">
-                ※ 이력서는 메일 또는 별도 링크로 전달 가능합니다. 필요하시면 요청해 주세요.
-              </p>
-            </div>
+        <div class="item col-6">
+          <div class="top"><h3>One-liner</h3><span class="tag">Pitch</span></div>
+          <div class="callout">
+            <b>“구성만 하는 사람”이 아니라,</b><br/>
+            장애를 재현하고 원인을 계층별로 쪼개서 찾아내며,<br/>
+            그걸 문서로 남겨 팀이 다시 재사용할 수 있게 만드는 엔지니어.
           </div>
-
-          <div class="contact-card">
-            <h3 style="font-size:0.96rem; margin-bottom:0.5rem;">Quick Profile</h3>
-            <p>
-              • 라우팅/스위칭 및 보안 장비 실습 다수<br />
-              • GNS3, Packet Tracer 중심으로 기업 인프라 모델링 경험<br />
-              • Linux(특히 Rocky 기반 서버) 운영 및 웹 서비스 구축 실습<br />
-              • 문제 상황 재현 및 원인 분석 문서화 경험
-            </p>
-
-            <div class="contact-pill-row">
-              <div class="contact-pill">Network Engineer (Entry)</div>
-              <div class="contact-pill">Infra / Security Interested</div>
-              <div class="contact-pill">Based in Korea</div>
-            </div>
-          </div>
+          <p class="desc" style="margin-top:12px;">
+            면접에서 이 문장 한 줄 + 프로젝트 2개만 제대로 설명하면 힘이 생깁니다.
+          </p>
         </div>
       </div>
     </section>
+
+    <footer>
+      <div>© <span id="y"></span> Beodeul Kang. All rights reserved.</div>
+      <div style="font-family:var(--mono);">Last updated: <span id="d"></span></div>
+    </footer>
   </main>
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="container footer-inner">
-      <span>© <span id="year"></span> Your Name. All rights reserved.</span>
-      <div class="footer-links">
-        <a href="#top">Back to top ↑</a>
-      </div>
-    </div>
-  </footer>
-</div>
-
-<script>
-  // 현재 연도 자동 입력
-  document.getElementById("year").textContent = new Date().getFullYear();
-</script>
+  <script>
+    const now = new Date();
+    document.getElementById('y').textContent = now.getFullYear();
+    document.getElementById('d').textContent =
+      now.toISOString().slice(0,10); // YYYY-MM-DD
+  </script>
 </body>
 </html>
