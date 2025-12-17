@@ -6,6 +6,14 @@
   <meta name="description" content="네트워크/보안 엔지니어 포트폴리오" />
   <title>Portfolio | Beodeul Kang</title>
 
+  <!-- SUIT (제목용) -->
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/static/woff2/SUIT.css">
+  
+  <!-- Noto Sans KR (본문용) -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap">
+
   <style>
     :root{
       --bg:#ffffff;
@@ -19,7 +27,7 @@
       --shadow: 0 10px 30px rgba(2,6,23,.08);
       --radius: 18px;
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
-      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", Arial, "Apple Color Emoji","Segoe UI Emoji";
+      --sans: 'Noto Sans KR', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji", "Segoe UI Emoji";
       --max: 1120px;
     }
 
@@ -291,6 +299,14 @@
     .anchor{
       scroll-margin-top: 86px;
     }
+
+    /* for fonts */
+    h1, h2, h3, .section-title h2 {
+      font-family: 'SUIT', 'Noto Sans KR', sans-serif;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    
   </style>
 </head>
 
@@ -333,10 +349,12 @@
             <span class="icon" aria-hidden="true">💻</span>
             GitHub
           </a>
+          <!--
           <a class="btn" href="#" onclick="window.print(); return false;">
             <span class="icon" aria-hidden="true">🖨️</span>
             PDF로 출력
           </a>
+          -->
         </div>
 
         <div style="margin-top:18px" class="callout">
